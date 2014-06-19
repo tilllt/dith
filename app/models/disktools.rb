@@ -1,4 +1,5 @@
 class Disktools
+	include Sys
 
 	def self.availFS
 	return %w(ext3 ext2 ext4 cramfs vfat msdos exfat hfsplus)
@@ -43,9 +44,15 @@ class Disktools
 				mount[:options] = mountArray[3]
 				mounted.push(mount)
 			end
+			mounted.each do |space|
+				fs = Filesystem.stat ('/')
+				space.store(:blocksize, fs.block_size)
+				space.store(:blocksfree, fs.blocks_free)
+				space.store(:blocksavailable, fs.blocks_available)
+			end
 			return mounted
 	end
-	
+
 	def mount (devname, fstype='', options='')
 		#http://stackoverflow.com/questions/10584326/
 	    uuid = availDev.find { |h| h[:devname] == devname }['uuid'];

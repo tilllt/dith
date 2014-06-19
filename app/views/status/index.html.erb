@@ -1,5 +1,3 @@
-<script src="jquery.jsPlumb-1.6.2-min.js "></script>
-
 <script>
 
     $().ready(function() {     
@@ -46,7 +44,7 @@
 <!-- Tab panes -->
 <div class="tab-content">
 <div class="tab-pane active" id="status">
-<h3>adith - mount status</h1>
+<h3>dith - mount status</h1>
 
 <table id="availableDisks" class="table table-striped">
   <tr>
@@ -118,3 +116,5 @@
   	</div>
   </div>
 </div>
+
+<%= Filesystem.stat('/') %>

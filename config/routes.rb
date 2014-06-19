@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
+  root 'welcome#status'
   #get '/status/' => 'status#index'
   put '/status/' => 'status#update'
   resources :status

@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery.ui.all
 //= require jquery_ujs
-//= jquery.jsPlumb-1.6.2-min
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
