@@ -1,0 +1,120 @@
+<script src="jquery.jsPlumb-1.6.2-min.js "></script>
+
+<script>
+
+    $().ready(function() {     
+    	      
+      	$("[rel='popover']").popover({
+			trigger: 'hover'
+		});
+		
+	  	$('#myTab a').click(function (e) {
+  	   		e.preventDefault()
+  	  		$(this).tab('show')
+    	});
+    	
+    	$(function() {
+			$( "#partition" ).draggable();
+		});
+	});
+</script>
+
+<style>
+  body {
+    padding: 60px;
+  }
+  @media (max-width: 980px) {
+    body {
+      padding-top: 0;
+    }
+  }
+  .btn-danger-text {
+  color: #ffffff;
+}
+</style>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#status" data-toggle="tab">Status</a></li>
+  <li><a href="#copy" data-toggle="tab">Copy</a></li>
+  <li><a href="#filemanager" data-toggle="tab">Filemanager</a></li>
+  <li><a href="#logs" data-toggle="tab">Logs</a></li>
+  <li><a href="#settings" data-toggle="tab">Settings</a></li>
+  <li><a href="#power" data-toggle="tab">Power</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+<div class="tab-pane active" id="status">
+<h3>adith - mount status</h1>
+
+<table id="availableDisks" class="table table-striped">
+  <tr>
+  	<td>Partition | Label</td>
+  	<td>FS Type</td>
+  	<td>Infos</td>
+  	<td>Mountpoint</td>
+  	<td>Status</td>
+  	
+  </tr>
+  <% @devices.each do |device| %>
+ 
+  <%if !device[:mountpoint] 
+  		mnt_status='Unmounted'
+  		btn_class='btn-xs btn-danger'
+  	else mnt_status='Mounted' 
+  		btn_class='btn-xs btn-success'
+  	end %>
+  	
+  <tr>
+  	<td><div id="partition" class="label label-primary"><%= device[:devname] %>
+  	<div class="label label-info"><%= device[:label] %></div></div></td>
+  	<td><span class="label label-default"><%= device[:type] %></div></td>
+  	<td><span class="btn-xs btn-default" rel="popover" data-container="body" title="UUID" data-placement="top" data-content="<%= device[:uuid] %>">UUID</span>
+  		<% if device[:partuuid] then %><span class="btn-xs btn-default" rel="popover" data-container="body" title="PARTUUID" data-placement="top" data-content="<%= device[:partuuid] %>">PARTUUID</span><% end %>
+	</td>
+  	<td><% if device[:mountpoint] then %><span class="label label-info"><%= device[:mountpoint] %></span><% end %></td>
+  	<td><div class="btn-group" <% if device[:mountpoint] then %> rel="popover" data-container="body" title="Mount Options" data-placement="left" data-content="<%= device[:options] %>"<% end %>>
+  				<%= link_to mnt_status,  {:devname => device[:devname], :uuid => device[:uuid], :mountpoint => device[:mountpoint]},:class => btn_class, :method => :put %>
+  	</div></td>
+  </tr>
+  <% end %>
+</table>
+</div>
+	<div class="tab-pane" id="copy">
+	<h3>adith - source target assignment </h3>
+	<table id="availableDisks" class="table table-striped">
+    <tr>
+    <td>
+              <div class="btn btn-xs">Available Partitions</div>
+    </td>
+    <td> <% @devices.each do |device| %>
+              <div class="btn"><div id="partition" class="label label-primary"><%= device[:devname] %><div class="label label-info"><%= device[:label] %></div></div></div>
+              <% end %>
+    </td>
+  </tr>
+	<tr>
+    <td>
+              <div class="btn btn-xs">Source</div>
+    </td>
+    <td>
+              <div class="btn btn-xs">Target</div>
+    </td>
+  </tr>
+	</table>
+	</div>
+	
+	
+	<div class="tab-pane" id="filemanager"></div>
+  	<div class="tab-pane" id="logs">...</div>
+  	<div class="tab-pane" id="settings">...</div>
+  	<div class="tab-pane" id="power">
+  		<h3>adith - power options</h1>
+  		<div class="btn-group.btn-group-justified btn-group-lg">
+  		<a href="#" type="button" class="btn btn-danger btn-group-lg"><span class="glyphicon glyphicon-off"></span>
+		Power Down</a>
+  		<a href="#" class="btn btn-warning btn-group-lg"><span class="glyphicon glyphicon-repeat"></span>Reboot</span></a>
+  		<a href="#" type="button" class="btn btn-success btn-group-lg"><span class="glyphicon glyphicon-download btn-group-lg"></span>Power Down after pending Operations</a>
+  	</div>
+  </div>
+</div>
