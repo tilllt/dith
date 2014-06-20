@@ -14,6 +14,11 @@
     	$(function() {
 			$( "#partition" ).draggable();
 		});
+
+      jsPlumb.ready(function() {
+    alert ('hallo')
+});
+
 	});
 </script>
 
@@ -80,23 +85,24 @@
 </table>
 </div>
 	<div class="tab-pane" id="copy">
-	<h3>adith - source target assignment </h3>
+	<h3>dith - source target assignment </h3>
 	<table id="availableDisks" class="table table-striped">
-    <tr>
-    <td>
-              <div class="btn btn-xs">Available Partitions</div>
-    </td>
-    <td> <% @devices.each do |device| %>
-              <div class="btn"><div id="partition" class="label label-primary"><%= device[:devname] %><div class="label label-info"><%= device[:label] %></div></div></div>
-              <% end %>
-    </td>
-  </tr>
 	<tr>
     <td>
-              <div class="btn btn-xs">Source</div>
+              <span class="label label-warning">Source</span>
     </td>
     <td>
-              <div class="btn btn-xs">Target</div>
+              <span class="label label-warning">Target</span>
+    </td>
+  </tr>
+  <tr>
+    <td><% @devices.each do |device| %>
+        <div id="partition" class="label label-primary"><%= device[:devname] %><div class="label label-info"><%= device[:label] %></div></div><p>
+        <% end %>
+    </td>
+     <td> <% @devices.each do |device| %>
+              <div id="partition" class="label label-primary"><%= device[:devname] %><div class="label label-info"><%= device[:label] %></div></div><p>
+          <% end %>
     </td>
   </tr>
 	</table>
@@ -116,5 +122,3 @@
   	</div>
   </div>
 </div>
-
-<%= Filesystem.stat('/') %>

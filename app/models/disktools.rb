@@ -20,19 +20,6 @@ class Disktools
 		return fsmatch
 	end	
 
-	def availDev
-		devices = []
-			`blkid -o export`.split(/\n\n/).each do |zeile|
-				device={}
-					zeile.split(/\n/).each do |pair|
-						eachdev=pair.split("=")
-						device[eachdev[0].downcase.to_sym] = eachdev[1]		
-					end
-			devices.push(device)
-			end
-			return devices
-	end
-
 	def devMounted
 		mounted = []
 			`mount`.split(/\n/).each do |zeile|
@@ -51,6 +38,19 @@ class Disktools
 				space.store(:blocksavailable, fs.blocks_available)
 			end
 			return mounted
+	end
+
+	def availDev
+		devices = []
+			`blkid -o export`.split(/\n\n/).each do |zeile|
+				device={}
+					zeile.split(/\n/).each do |pair|
+						eachdev=pair.split("=")
+						device[eachdev[0].downcase.to_sym] = eachdev[1]
+					end
+			devices.push(device)
+			end
+			return devices
 	end
 
 	def mount (devname, fstype='', options='')
